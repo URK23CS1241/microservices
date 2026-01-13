@@ -1,0 +1,34 @@
+name: Microservices CI/CD
+
+on:
+  push:
+    paths:
+      - "user-service/**"
+      - "product-service/**"
+      - "order-service/**"
+
+jobs:
+  user-service:
+    name: Build User Service
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '') || true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build User Service Docker Image
+        run: docker build -t user-service ./user-service
+
+  product-service:
+    name: Build Product Service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Product Service Docker Image
+        run: docker build -t product-service ./product-service
+
+  order-service:
+    name: Build Order Service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Order Service Docker Image
+        run: docker build -t order-service ./order-service
